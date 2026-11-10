@@ -28,3 +28,8 @@ Removals are logged like additions.
 - **Removed:** autonomous merge; pushes to a protected branch
 - **Constrained:** push_commit and post_comment by circumstance; every gated call to a person's answer, and no answer to a hold
 
+## Assignment 6
+- **Added:** nothing to `main`. The coordinator, the two roles, the return contract, the five checks and the third arm live on `lab-06-split`, tagged `lab-06-split-final` and not merged; `main` gains only the runs, the results and the write-ups
+- **Removed:** nothing
+- **Constrained:** multi-agent decomposition, measured against one agent on the same eight tasks and the same five constants, and not merged: `decisions/0006-topology.md` records the gate verdicts, the measured 0.84x on a single issue and 2.34x on a batch, slide 18's three answers, one agent for both kinds of task, and the condition that reopens it
+
