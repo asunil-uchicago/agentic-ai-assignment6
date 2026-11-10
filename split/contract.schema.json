@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RepoMind investigator return contract (Assignment 6, Lecture 6 slide 13)",
+  "description": "What one investigator sends back to the coordinator. The lead acts only on this, so whatever is missing here is lost for good. Every object is closed and every property required, so the same schema can be sent to a vendor's strict mode.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["result", "status", "searched", "not_searched", "calls_used", "could_not_determine"],
+  "properties": {
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issue", "label", "file", "evidence"],
+      "properties": {
+        "issue": {
+          "type": "integer",
+          "description": "The issue this finding is about, as a number."
+        },
+        "label": {
+          "type": "string",
+          "enum": ["bug", "feature", "question", "docs", "unknown"],
+          "description": "The one label for the issue. 'unknown' only when the status is candidate or out_of_budget."
+        },
+        "file": {
+          "type": "string",
+          "description": "The path of the one file most responsible, relative to the repository root, or 'none' when nothing needs to change."
+        },
+        "evidence": {
+          "type": "string",
+          "description": "Why that file: the search hit or the lines in it that explain the issue."
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["found", "candidate", "out_of_budget"],
+      "description": "found: the file is established. candidate: a best guess that was not confirmed by reading the file. out_of_budget: the worker stopped before it could settle the question."
+    },
+    "searched": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Every search query the worker sent and every path it read, each once. A fact about the run, recomputed by the coordinator from the worker's own tool calls, never reported by the model."
+    },
+    "not_searched": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "What the worker knows it did not look at: terms it decided against, paths it did not open."
+    },
+    "calls_used": {
+      "type": "integer",
+      "description": "How many of the registry's tools the worker called before returning. A fact about the run, recomputed by the coordinator, never reported by the model."
+    },
+    "could_not_determine": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "What the worker could not settle, one question each; empty when nothing. Without this the coordinator cannot tell 'nothing exists' from 'I did not look'."
+    }
+  }
+}
